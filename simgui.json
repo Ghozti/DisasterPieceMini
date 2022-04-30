@@ -1,0 +1,23 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/RomiDrivetrain": "Subsystem",
+      "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+    }
+  },
+  "NetworkTables": {
+    "CameraPublisher": {
+      "rPi Camera 0": {
+        "open": true
+      }
+    },
+    "Romi": {
+      "Config": {
+        "open": true
+      },
+      "open": true
+    }
+  }
+}
