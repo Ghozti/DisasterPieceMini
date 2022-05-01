@@ -15,6 +15,14 @@ public class Auto extends CommandBase {
   RomiDrivetrain drivetrain;
   Timer timer = new Timer();
 
+  private double error;//feetTarget - encoder position
+  private double output;// kP*error
+
+  private final int inchTarget = 60 ;
+  private final double kP = 0.3;
+  private final double kI = 0;
+  private final double kD = 0;
+
   /** Creates a new Auto. */
   public Auto(RomiDrivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,29 +33,28 @@ public class Auto extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
     drivetrain.resetEncoders();
-    timer.reset();
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.m_diffDrive.arcadeDrive(.4, 0);
-    System.out.println(timer.get());
+
+    error = inchTarget - (drivetrain.getRightDistanceInch() + drivetrain.getLeftDistanceInch())/2;
+    output = kP * error;
+
+    drivetrain.m_diffDrive.arcadeDrive(output, 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     drivetrain.m_diffDrive.arcadeDrive(0, 0);
-    timer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() > 5;
+    return error <= 0;
   }
 }
